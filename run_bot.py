@@ -7,7 +7,7 @@ from snumpus.snumpus_bot import start_snumpus
 
 
 def run_bot():
-    parser = argparse.ArgumentParser('Luffy Discord Bot')
+    parser = argparse.ArgumentParser('Snumpus Discord Bot')
     parser.add_argument('--debug', action='store_true', help='Show logs in console')
     parser.add_argument('--discord-logs', action='store_true', help='Show Discord logs in console')
     args = parser.parse_args()

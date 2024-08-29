@@ -10,9 +10,9 @@ def _setup_snumpus_bot_logs(console: bool = False):
     formatter = logging.Formatter('[{asctime}][{levelname}][{name}] {message}', style='{')
 
     # Logging to File
-    luffy_log_dir = log_dir / 'snumpus-bot'
-    luffy_log_dir.mkdir(exist_ok=True, parents=True)
-    log_file = luffy_log_dir / 'snumpus-bot.log'
+    snumpus_log_dir = log_dir / 'snumpus-bot'
+    snumpus_log_dir.mkdir(exist_ok=True, parents=True)
+    log_file = snumpus_log_dir / 'snumpus-bot.log'
 
     rh = logging.handlers.RotatingFileHandler(str(log_file), maxBytes=512000, backupCount=10, mode='w',
                                               encoding='utf-8')
