@@ -52,7 +52,7 @@ class ManagementCog(SnumpusCog):
         except Exception:
             self.logger.exception('Could not locally sync commands!')
 
-    @command(name='luffy_bot_stop')
+    @command(name='snumpus_bot_stop')
     @is_owner()
     async def stop_bot_execution(self, ctx: Context):
         self.logger.info(f'Stopping the bot...')
