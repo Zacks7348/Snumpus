@@ -27,7 +27,11 @@ class SnailifyCog(SnumpusCog):
 
     @Cog.listener()
     async def on_message(self, message: Message) -> None:
-        if message.channel.id != self.config['snailChannel'] or (message.webhook_id == self.webhook_id and self.webhook_id is not None):
+        if (
+                message.channel.id != self.config['snailChannel'] or
+                (message.webhook_id == self.webhook_id and self.webhook_id is not None) or
+                message.author.id == self.bot.user.id
+        ):
             return
 
         snail_content = self.snailify(message.content)
@@ -46,11 +50,25 @@ class SnailifyCog(SnumpusCog):
                     self.logger.debug(f'Updating cached webhook ID ({self.webhook_id} -> {webhook.id})')
                     self.webhook_id = webhook.id
 
+                # Get attachments
+                attachments = []
+                for attachment in message.attachments:
+                    try:
+                        attachment_file = await attachment.to_file()
+                        attachments.append(attachment_file)
+
+                    except Exception as e:
+                        self.logger.error(f'Could not download attachment "{attachment}! Ignoring..."')
+                        continue
+
                 await webhook.send(
                     content=snail_content,
                     username=message.author.display_name,
                     avatar_url=message.author.display_avatar.url,
-                    wait=True
+                    wait=True,
+                    embeds=message.embeds,
+                    files=attachments,
+                    silent=True
                 )
 
                 await message.delete()
