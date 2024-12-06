@@ -174,17 +174,28 @@ class SnailifyCog(SnumpusCog):
         if r > chance:
             return word
 
-        s = 's' if not word[0].isupper() else 'S'
-        n = 'n' if not word[1].isupper() else 'N'
-        sn = s + n
-        # If the 2nd character is a vowel only replace the first character with "sn"
+        # If the first character is a vowel, prefix "sn"
         if word[0].lower() in self.VOWELS:
-            return sn + word
+            if word[0].isupper():
+                return 'Sn' + word[0].lower() + word[1:]
+            else:
+                return 'sn' + word
 
+        # If the second character is a vowel, only replace first character
         elif word[1].lower() in self.VOWELS:
-            return sn + word[1:]
+            if word[1].isupper():
+                return 'Sn' + word[1].lower() + word[2:]
+            else:
+                return 'sn' + word[1:]
 
-        return sn + word[2:]
+        # Replace first two characters
+        else:
+            s = 's' if not word[0].isupper() else 'S'
+            n = 'n' if not word[1].isupper() else 'N'
+            sn = s + n
+            return sn + word[2:]
+
+        return word
 
     def _read_config(self) -> dict:
         with self.CONFIG_FILE.open('r') as f:
